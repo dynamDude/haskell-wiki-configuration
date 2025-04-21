@@ -2,6 +2,16 @@
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
 
   outputs = { self, nixpkgs }: {
+    # test VM here
+    nixosConfigurations.hawiki-test-vm = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [
+        ./vm-config.nix
+        self.nixosModules.hawiki
+      ];
+    };
+    
+    # untouched
     nixosModules.hawiki = { config, pkgs, lib, ... }:
       with lib;
       let cfg = config.services.hawiki;
